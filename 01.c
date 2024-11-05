@@ -1,3 +1,4 @@
+//murge 2 shorted linklist
 #include<stdio.h>
 #include<stdlib.h>
 
