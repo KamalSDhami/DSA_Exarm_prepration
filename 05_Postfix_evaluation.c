@@ -6,7 +6,7 @@
 
 struct Stack {
     int top;
-    char *arr;
+    int *arr;
     int size;
 };
 
@@ -14,7 +14,7 @@ void create_stack (struct Stack *st ){
     st->size = 100;
     
     //crete array 
-    st->arr = (char *) malloc (sizeof(char) * st->size);
+    st->arr = (int *) malloc (sizeof(int) * st->size);
     st->top = -1;
 }
 
@@ -30,7 +30,8 @@ void push (struct Stack *st,int item){
     if (is_full(st)){
         printf("Error : Stack is full ");
     }else{
-        st->arr[++st->top] = item;
+        st->top = st->top +1 ;
+        st->arr[st->top] = item;
     }
 }
 
@@ -38,8 +39,16 @@ int pop(struct Stack *st){
     if (is_empty(st)){
         printf("Error : Underflow ");
     }else{
-        return st->arr[st->top --] ;
+        return st->arr[st->top ] ;
+        st->top --;
     }
+}
+//traverse
+
+void display(struct Stack *st){
+    for (int i = 0; i <= st->top; i++){
+        printf("%d ",st->arr[i]);
+    }printf("\n");
 }
 
 int postfix_evaluation(char*str){
@@ -47,8 +56,7 @@ int postfix_evaluation(char*str){
     create_stack(&st);
     for (int i = 0;str[i]!= '\0';i++){
         if (isdigit(str[i])){
-            push(&st,(int)str[i]);
-            printf("%d",str[i]);
+            push(&st,str[i]-'0');
         }else{
             int op2 = pop(&st);
             int op1 = pop(&st);
@@ -70,12 +78,13 @@ int postfix_evaluation(char*str){
                     break;
             }
         }
+
     }
     return pop(&st);
 }
 
 int main(){
-    char *str = "231*+9-";
+    char *str = "5 6 +";
     printf("Result : %d",postfix_evaluation(str));
     return 0;
 }
